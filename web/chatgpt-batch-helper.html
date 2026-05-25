@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT批量OCR处理助手</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Microsoft YaHei', sans-serif; }
+        .image-card:hover { transform: scale(1.02); transition: transform 0.2s; }
+        .image-card.selected { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); }
+        .copy-feedback { animation: fadeInOut 2s ease; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-gradient-to-r from-green-600 to-green-800 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <h1 class="text-2xl font-bold">ChatGPT 批量OCR处理助手</h1>
+            <p class="text-green-200 text-sm mt-1">选择图片 → 复制到剪贴板 → 粘贴到ChatGPT → 解析结果</p>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- 操作说明 -->
+        <div class="bg-white rounded-xl p-6 mb-6 shadow">
+            <h2 class="text-lg font-semibold mb-4">操作步骤</h2>
+            <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                <li>点击图片卡片选中（每次最多10张）</li>
+                <li>点击"复制提示词"按钮，将提示词复制到剪贴板</li>
+                <li>打开ChatGPT桌面端，粘贴提示词</li>
+                <li>再将选中的图片逐个粘贴到ChatGPT（Ctrl+V）</li>
+                <li>发送后等待ChatGPT回复</li>
+                <li>复制ChatGPT的回复，粘贴到下方"解析结果"区域</li>
+                <li>点击"解析并保存"按钮</li>
+            </ol>
+        </div>
+
+        <!-- 状态栏 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg p-4 shadow">
+                <div class="text-sm text-gray-500">待处理图片</div>
+                <div id="pending-count" class="text-2xl font-bold text-blue-600">--</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow">
+                <div class="text-sm text-gray-500">已选图片</div>
+                <div id="selected-count" class="text-2xl font-bold text-green-600">0</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow">
+                <div class="text-sm text-gray-500">已处理</div>
+                <div id="processed-count" class="text-2xl font-bold text-purple-600">--</div>
+            </div>
+            <div class="bg-white rounded-lg p-4 shadow">
+                <div class="text-sm text-gray-500">操作</div>
+                <div class="flex flex-wrap gap-2 mt-1">
+                    <button onclick="selectAll()" class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">全选10张</button>
+                    <button onclick="clearSelection()" class="px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600">清除选择</button>
+                    <button onclick="copyAllSelected()" class="px-3 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700">复制选中图片</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 复制提示词按钮 -->
+        <div class="bg-white rounded-xl p-6 mb-6 shadow">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold">第一步：复制提示词</h3>
+                <button onclick="copyPrompt()" id="copy-prompt-btn" 
+                        class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold">
+                    复制提示词
+                </button>
+            </div>
+            <div id="prompt-preview" class="bg-gray-50 p-4 rounded-lg text-sm text-gray-600 max-h-32 overflow-y-auto">
+                请先选择图片...
+            </div>
+            <div id="copy-feedback" class="hidden text-green-600 font-semibold mt-2">已复制到剪贴板！</div>
+        </div>
+
+        <!-- 图片网格 -->
+        <div class="bg-white rounded-xl p-6 mb-6 shadow">
+            <h3 class="text-lg font-semibold mb-4">选择要处理的图片（点击选中/取消）</h3>
+            <div id="image-grid" class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- 图片卡片将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 解析结果区域 -->
+        <div class="bg-white rounded-xl p-6 shadow">
+            <h3 class="text-lg font-semibold mb-4">第二步：解析ChatGPT回复</h3>
+            <textarea id="chatgpt-response" rows="10" 
+                      class="w-full border rounded-lg p-4 text-sm"
+                      placeholder="将ChatGPT的回复粘贴到这里..."></textarea>
+            <div class="flex gap-4 mt-4">
+                <button onclick="parseAndSave()" 
+                        class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold">
+                    解析并保存
+                </button>
+                <button onclick="clearResponse()" 
+                        class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
+                    清空
+                </button>
+            </div>
+            <div id="parse-result" class="mt-4 hidden">
+                <!-- 解析结果将在这里显示 -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = '';
+        let allImages = [];
+        let selectedImages = new Set();
+        let processedImages = new Set();
+
+        // 页面加载时获取图片列表
+        document.addEventListener('DOMContentLoaded', () => {
+            loadImages();
+        });
+
+        // 加载图片列表
+        async function loadImages() {
+            try {
+                // 获取已处理的数据
+                const dataResponse = await fetch(`${API_BASE}/api/v1/oil-price/db/all?limit=1000`);
+                const dataResult = await dataResponse.json();
+                if (dataResult.status === 'success') {
+                    dataResult.data.forEach(d => processedImages.add(d.date));
+                }
+
+                // 获取所有图片
+                const response = await fetch(`${API_BASE}/api/v1/oil-price/images`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    allImages = result.images;
+                    renderImageGrid();
+                    updateStats();
+                }
+            } catch (error) {
+                console.error('加载图片列表失败:', error);
+            }
+        }
+
+        // 渲染图片网格
+        function renderImageGrid() {
+            const grid = document.getElementById('image-grid');
+            
+            // 只显示未处理的图片
+            const pendingImages = allImages.filter(img => !processedImages.has(img.date));
+            
+            grid.innerHTML = pendingImages.map(img => `
+                <div class="image-card border-2 border-gray-200 rounded-lg p-2 ${selectedImages.has(img.date) ? 'selected' : ''}"
+                     data-date="${img.date}">
+                    <div class="cursor-pointer" onclick="toggleImage('${img.date}')">
+                        <img src="${img.api_endpoint}" alt="${img.date}" 
+                             class="w-full h-24 object-contain mb-2">
+                        <div class="text-xs text-center text-gray-600">${img.date}</div>
+                        <div class="text-xs text-center text-gray-400">${(img.size / 1024).toFixed(0)} KB</div>
+                    </div>
+                    <button onclick="event.stopPropagation(); copyImage('${img.date}')" 
+                            class="w-full mt-2 px-2 py-1 bg-green-500 text-white rounded text-xs hover:bg-green-600">
+                        复制图片
+                    </button>
+                </div>
+            `).join('');
+            
+            document.getElementById('pending-count').textContent = pendingImages.length;
+        }
+
+        // 切换图片选中状态
+        function toggleImage(date) {
+            if (selectedImages.has(date)) {
+                selectedImages.delete(date);
+            } else {
+                if (selectedImages.size >= 10) {
+                    alert('最多只能选择10张图片！');
+                    return;
+                }
+                selectedImages.add(date);
+            }
+            updateSelection();
+        }
+
+        // 全选10张
+        function selectAll() {
+            const pendingImages = allImages.filter(img => !processedImages.has(img.date));
+            selectedImages.clear();
+            pendingImages.slice(0, 10).forEach(img => selectedImages.add(img.date));
+            updateSelection();
+        }
+
+        // 清除选择
+        function clearSelection() {
+            selectedImages.clear();
+            updateSelection();
+        }
+
+        // 更新选择状态
+        function updateSelection() {
+            document.querySelectorAll('.image-card').forEach(card => {
+                const date = card.dataset.date;
+                if (selectedImages.has(date)) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            document.getElementById('selected-count').textContent = selectedImages.size;
+            updatePromptPreview();
+        }
+
+        // 更新统计
+        function updateStats() {
+            document.getElementById('processed-count').textContent = processedImages.size;
+        }
+
+        // 生成提示词
+        function generatePrompt() {
+            const dates = Array.from(selectedImages).sort();
+            return `请识别以下${dates.length}张国内成品油价格表图片，提取每张图片的完整数据。
+
+对于每张图片，请按以下JSON格式输出：
+
+{
+  "date": "YYYY-MM-DD",
+  "title": "表格标题",
+  "regions": [
+    {
+      "name": "地区名称",
+      "gasoline_price": 数字（元/吨）,
+      "diesel_price": 数字（元/吨）或null,
+      "section": "一省一价 或 暂不实行一省一价"
+    }
+  ]
+}
+
+请将所有图片的数据合并为一个JSON数组输出，格式如下：
+[
+  { 图片1的数据 },
+  { 图片2的数据 },
+  ...
+]
+
+注意：
+1. 价格单位是元/吨
+2. 如果某个价格在图片中没有显示，设为null
+3. 地区名称保持原样，不要修改
+4. 日期从图片标题或内容中提取
+
+图片日期列表：${dates.join(', ')}`;
+        }
+
+        // 更新提示词预览
+        function updatePromptPreview() {
+            const preview = document.getElementById('prompt-preview');
+            if (selectedImages.size === 0) {
+                preview.textContent = '请先选择图片...';
+            } else {
+                preview.textContent = generatePrompt();
+            }
+        }
+
+        // 复制提示词
+        async function copyPrompt() {
+            if (selectedImages.size === 0) {
+                alert('请先选择图片！');
+                return;
+            }
+            
+            const prompt = generatePrompt();
+            try {
+                await navigator.clipboard.writeText(prompt);
+                showFeedback('copy-feedback');
+            } catch (error) {
+                // 降级方案
+                const textarea = document.createElement('textarea');
+                textarea.value = prompt;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showFeedback('copy-feedback');
+            }
+        }
+
+        // 复制单张图片到剪贴板
+        async function copyImage(date) {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/oil-price/copy-image/${date}`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    showNotification(`图片 ${date} 已复制到剪贴板！`, 'success');
+                } else {
+                    showNotification(`复制失败: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showNotification(`复制失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 复制所有选中的图片（逐个）
+        async function copyAllSelected() {
+            if (selectedImages.size === 0) {
+                alert('请先选择图片！');
+                return;
+            }
+            
+            const dates = Array.from(selectedImages).sort();
+            showNotification(`开始复制 ${dates.length} 张图片，请在ChatGPT中逐个粘贴`, 'info');
+            
+            for (let i = 0; i < dates.length; i++) {
+                const date = dates[i];
+                await copyImage(date);
+                
+                if (i < dates.length - 1) {
+                    // 等待用户粘贴
+                    await new Promise(resolve => {
+                        const continueBtn = document.createElement('button');
+                        continueBtn.textContent = `已粘贴 ${date}，继续复制下一张`;
+                        continueBtn.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg z-50 animate-bounce';
+                        continueBtn.onclick = () => {
+                            continueBtn.remove();
+                            resolve();
+                        };
+                        document.body.appendChild(continueBtn);
+                    });
+                }
+            }
+            
+            showNotification('所有图片复制完成！', 'success');
+        }
+
+        // 显示反馈
+        function showFeedback(elementId) {
+            const feedback = document.getElementById(elementId);
+            feedback.classList.remove('hidden');
+            setTimeout(() => feedback.classList.add('hidden'), 2000);
+        }
+
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            const colors = {
+                success: 'bg-green-500',
+                error: 'bg-red-500',
+                info: 'bg-blue-500'
+            };
+            
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 ${colors[type]} text-white rounded-lg shadow-lg z-50 transition-opacity`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // 解析并保存
+        async function parseAndSave() {
+            const responseText = document.getElementById('chatgpt-response').value.trim();
+            if (!responseText) {
+                alert('请先粘贴ChatGPT的回复！');
+                return;
+            }
+            
+            const resultDiv = document.getElementById('parse-result');
+            
+            try {
+                // 尝试提取JSON
+                let jsonStr = responseText;
+                
+                // 如果包含```json代码块，提取其中的内容
+                const codeBlockMatch = responseText.match(/```(?:json)?\s*([\s\S]*?)```/);
+                if (codeBlockMatch) {
+                    jsonStr = codeBlockMatch[1];
+                }
+                
+                // 尝试找到JSON数组
+                const arrayMatch = jsonStr.match(/\[[\s\S]*\]/);
+                if (arrayMatch) {
+                    jsonStr = arrayMatch[0];
+                }
+                
+                const data = JSON.parse(jsonStr);
+                const dataArray = Array.isArray(data) ? data : [data];
+                
+                // 保存每个数据
+                let saved = 0;
+                let errors = [];
+                
+                for (const item of dataArray) {
+                    if (!item.date) {
+                        errors.push('缺少日期字段');
+                        continue;
+                    }
+                    
+                    try {
+                        const saveResponse = await fetch(`${API_BASE}/api/v1/oil-price/data`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(item)
+                        });
+                        
+                        if (saveResponse.ok) {
+                            saved++;
+                            processedImages.add(item.date);
+                            selectedImages.delete(item.date);
+                        } else {
+                            errors.push(`${item.date}: 保存失败`);
+                        }
+                    } catch (e) {
+                        errors.push(`${item.date}: ${e.message}`);
+                    }
+                }
+                
+                // 显示结果
+                resultDiv.classList.remove('hidden');
+                if (errors.length === 0) {
+                    resultDiv.innerHTML = `
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                            成功保存 ${saved} 条数据！
+                        </div>`;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+                            保存 ${saved} 条，失败 ${errors.length} 条<br>
+                            ${errors.join('<br>')}
+                        </div>`;
+                }
+                
+                // 刷新界面
+                renderImageGrid();
+                updateSelection();
+                updateStats();
+                
+            } catch (error) {
+                resultDiv.classList.remove('hidden');
+                resultDiv.innerHTML = `
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        解析失败：${error.message}<br>
+                        请确保ChatGPT的回复是有效的JSON格式
+                    </div>`;
+            }
+        }
+
+        // 清空回复
+        function clearResponse() {
+            document.getElementById('chatgpt-response').value = '';
+            document.getElementById('parse-result').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

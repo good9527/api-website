@@ -1,0 +1,221 @@
+{
+  "date": "2021-08-23",
+  "title": "各省区市和中心城市汽、柴油最高零售价格",
+  "regions": [
+    {
+      "name": "北京市",
+      "gasoline_price": 8535,
+      "diesel_price": 7540,
+      "section": "一省一价"
+    },
+    {
+      "name": "天津市",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "河北省",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "山西省",
+      "gasoline_price": 8570,
+      "diesel_price": 7560,
+      "section": "一省一价"
+    },
+    {
+      "name": "内蒙古自治区",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "辽宁省",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "吉林省",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "黑龙江省",
+      "gasoline_price": 8500,
+      "diesel_price": 7505,
+      "section": "一省一价"
+    },
+    {
+      "name": "上海市",
+      "gasoline_price": 8515,
+      "diesel_price": 7510,
+      "section": "一省一价"
+    },
+    {
+      "name": "江苏省",
+      "gasoline_price": 8555,
+      "diesel_price": 7545,
+      "section": "一省一价"
+    },
+    {
+      "name": "浙江省",
+      "gasoline_price": 8555,
+      "diesel_price": 7560,
+      "section": "一省一价"
+    },
+    {
+      "name": "安徽省",
+      "gasoline_price": 8550,
+      "diesel_price": 7555,
+      "section": "一省一价"
+    },
+    {
+      "name": "福建省",
+      "gasoline_price": 8575,
+      "diesel_price": 7570,
+      "section": "一省一价"
+    },
+    {
+      "name": "江西省",
+      "gasoline_price": 8555,
+      "diesel_price": 7565,
+      "section": "一省一价"
+    },
+    {
+      "name": "山东省",
+      "gasoline_price": 8510,
+      "diesel_price": 7515,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖北省",
+      "gasoline_price": 8525,
+      "diesel_price": 7530,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖南省",
+      "gasoline_price": 8525,
+      "diesel_price": 7540,
+      "section": "一省一价"
+    },
+    {
+      "name": "广东省",
+      "gasoline_price": 8520,
+      "diesel_price": 7545,
+      "section": "一省一价"
+    },
+    {
+      "name": "广西壮族自治区",
+      "gasoline_price": 8645,
+      "diesel_price": 7640,
+      "section": "一省一价"
+    },
+    {
+      "name": "海南省",
+      "gasoline_price": 8860,
+      "diesel_price": 7715,
+      "section": "一省一价"
+    },
+    {
+      "name": "重庆市",
+      "gasoline_price": 8715,
+      "diesel_price": 7575,
+      "section": "一省一价"
+    },
+    {
+      "name": "四川省",
+      "gasoline_price": 8840,
+      "diesel_price": 7575,
+      "section": "一省一价"
+    },
+    {
+      "name": "贵州省",
+      "gasoline_price": 8605,
+      "diesel_price": 7640,
+      "section": "一省一价"
+    },
+    {
+      "name": "云南省",
+      "gasoline_price": 8710,
+      "diesel_price": 7695,
+      "section": "一省一价"
+    },
+    {
+      "name": "西藏自治区",
+      "gasoline_price": 8485,
+      "diesel_price": 7525,
+      "section": "一省一价"
+    },
+    {
+      "name": "陕西省",
+      "gasoline_price": 8280,
+      "diesel_price": 7400,
+      "section": "一省一价"
+    },
+    {
+      "name": "呼和浩特市",
+      "gasoline_price": 8515,
+      "diesel_price": 7520,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "成都市",
+      "gasoline_price": 8720,
+      "diesel_price": 7740,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "贵阳市",
+      "gasoline_price": 8660,
+      "diesel_price": 7665,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "昆明市",
+      "gasoline_price": 8710,
+      "diesel_price": 7695,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "西安市",
+      "gasoline_price": 8485,
+      "diesel_price": 7550,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "兰州市",
+      "gasoline_price": 8465,
+      "diesel_price": 7550,
+      "section": "暂不实行一省一价"
+    }
+  ],
+  "notes": [
+    "表中价格包含消费税、增值税以及城建税和教育费附加。",
+    "表中汽油和柴油价格为符合国家第六阶段质量标准的车用汽油和车用柴油价格。",
+    "汽、柴油第六阶段标准品分别为89号汽油和0号车用柴油。",
+    "供国家储备、新疆生产建设兵团用符合第六阶段质量标准的汽、柴油价格分别为每吨7770元和6775元。供林业用汽、柴油价格按上述价格执行。其他成品油价格政策按《石油价格管理办法》规定执行。"
+  ],
+  "success": true,
+  "image_path": "H:\\2026年项目\\2.建立一个api网站\\api\\v1\\oil-price\\images\\oil_price_2021-08-23.png",
+  "model": "mimo-v2.5",
+  "processed_at": "2026-05-25T15:38:15.253928",
+  "is_stranded": false,
+  "validation": {
+    "is_valid": true,
+    "warnings": [
+      "缺少必要字段: subtitle"
+    ],
+    "errors": [],
+    "statistics": {
+      "total_regions": 32,
+      "complete_regions": 32,
+      "completeness_rate": 1.0
+    }
+  }
+}

@@ -1,0 +1,74 @@
+# 数据源配置
+# 每个数据源定义采集URL、频率、校验规则等
+
+sources:
+  # 国内油价数据
+  oil-price:
+    name: "国内油价"
+    description: "国家发改委公布的国内成品油价格"
+    url: "https://www.ndrc.gov.cn/xwdt/xwfb/"  # 发改委新闻发布列表页面
+    schedule: "0 9 * * *"  # 每天9点执行
+    timeout: 30
+    retries: 3
+    schema: "oil_price.json"
+    enabled: true
+    headers:
+      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+      User-Agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    params: {}
+    
+  # 限行信息
+  traffic-restrict:
+    name: "限行信息"
+    description: "各城市机动车限行规定"
+    url: "https://api.example.com/traffic-restrict"
+    schedule: "0 8 * * 1"  # 每周一8点执行
+    timeout: 45
+    retries: 2
+    schema: "traffic_restrict.json"
+    enabled: true
+    headers: {}
+    params:
+      cities: "北京,上海,广州,深圳"
+    
+  # 政策信息
+  policy:
+    name: "政策信息"
+    description: "国家及地方政策法规"
+    url: "https://api.example.com/policy"
+    schedule: "0 10 * * *"  # 每天10点执行
+    timeout: 60
+    retries: 3
+    schema: "policy.json"
+    enabled: true
+    headers: {}
+    params:
+      category: "经济,民生"
+    
+  # 行政区划
+  admin-division:
+    name: "行政区划"
+    description: "国家行政区划数据"
+    url: "https://api.example.com/admin-division"
+    schedule: "0 0 1 * *"  # 每月1号0点执行
+    timeout: 120
+    retries: 5
+    schema: "admin_division.json"
+    enabled: true
+    headers: {}
+    params:
+      level: "province,city"
+    
+  # 价格表
+  price-table:
+    name: "价格表"
+    description: "各类商品和服务价格"
+    url: "https://api.example.com/price-table"
+    schedule: "0 12 * * *"  # 每天12点执行
+    timeout: 30
+    retries: 3
+    schema: "price_table.json"
+    enabled: true
+    headers: {}
+    params:
+      categories: "食品,能源,交通"

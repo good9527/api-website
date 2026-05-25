@@ -1,0 +1,28 @@
+# Data Collection & Processing
+requests==2.31.0
+pandas==2.0.3
+pydantic==2.4.2
+pyyaml==6.0.1
+beautifulsoup4==4.12.2
+lxml==4.9.3
+
+# Flask for local development
+flask==2.3.3
+flask-cors==4.0.0
+
+# Data Validation & Quality
+jsonschema==4.19.1
+cerberus==1.3.5
+
+# Utilities
+python-dateutil==2.8.2
+schedule==1.2.1
+click==8.1.7
+rich==13.6.0
+loguru==0.7.2
+
+# Development
+pytest==7.4.3
+black==23.9.1
+isort==5.12.0
+mypy==1.6.1

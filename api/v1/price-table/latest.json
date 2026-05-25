@@ -1,0 +1,62 @@
+{
+  "status": "success",
+  "data": {
+    "update_time": "2026-05-24T16:25:21.165847+00:00",
+    "prices": [
+      {
+        "category": "食品",
+        "items": [
+          {
+            "name": "大米",
+            "unit": "元/公斤",
+            "price": 5.5,
+            "change": 0.02
+          },
+          {
+            "name": "面粉",
+            "unit": "元/公斤",
+            "price": 4.2,
+            "change": -0.01
+          },
+          {
+            "name": "猪肉",
+            "unit": "元/公斤",
+            "price": 28.5,
+            "change": 0.05
+          }
+        ]
+      },
+      {
+        "category": "能源",
+        "items": [
+          {
+            "name": "92号汽油",
+            "unit": "元/升",
+            "price": 7.85,
+            "change": 0.03
+          },
+          {
+            "name": "0号柴油",
+            "unit": "元/升",
+            "price": 7.55,
+            "change": 0.02
+          },
+          {
+            "name": "天然气",
+            "unit": "元/立方米",
+            "price": 3.2,
+            "change": 0.01
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "source": "price-table",
+    "collected_at": "2026-05-24T16:25:21.165847+00:00",
+    "version": "20260524-162521",
+    "quality_score": 0.94,
+    "fields_count": 2,
+    "records_count": 2
+  }
+}

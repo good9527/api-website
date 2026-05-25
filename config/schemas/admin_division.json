@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "行政区划数据",
+  "description": "国家行政区划数据",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "error"],
+      "description": "数据状态"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "数据更新时间"
+        },
+        "divisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "pattern": "^[0-9]{6}$",
+                "description": "行政区划代码"
+              },
+              "name": {
+                "type": "string",
+                "description": "行政区划名称"
+              },
+              "level": {
+                "type": "string",
+                "enum": ["province", "city", "county", "township", "village"],
+                "description": "行政区划级别"
+              },
+              "parent_code": {
+                "type": "string",
+                "pattern": "^[0-9]{6}$",
+                "description": "上级行政区划代码"
+              },
+              "postal_code": {
+                "type": "string",
+                "pattern": "^[0-9]{6}$",
+                "description": "邮政编码"
+              },
+              "area_code": {
+                "type": "string",
+                "pattern": "^[0-9]{3,4}$",
+                "description": "电话区号"
+              },
+              "population": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "人口数量"
+              },
+              "area": {
+                "type": "number",
+                "minimum": 0,
+                "description": "面积（平方公里）"
+              }
+            },
+            "required": ["code", "name", "level"]
+          },
+          "description": "行政区划列表"
+        }
+      },
+      "required": ["update_time", "divisions"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "数据来源"
+        },
+        "collected_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "采集时间"
+        },
+        "version": {
+          "type": "string",
+          "description": "数据版本"
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "数据质量评分"
+        },
+        "fields_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "字段数量"
+        },
+        "records_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "记录数量"
+        }
+      },
+      "required": ["source", "collected_at", "version", "quality_score"]
+    }
+  },
+  "required": ["status", "data", "metadata"]
+}

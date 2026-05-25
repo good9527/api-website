@@ -1,0 +1,36 @@
+# 全局设置
+settings:
+  # 数据质量阈值（0-1之间，低于此值的数据不会被发布）
+  quality_threshold: 0.8
+  
+  # 历史数据保留天数
+  max_history_days: 30
+  
+  # 目录配置
+  staging_dir: "staging"
+  live_dir: "api/v1"
+  metadata_dir: "api/metadata"
+  
+  # 日志配置
+  log_level: "INFO"
+  log_file: "logs/collection.log"
+  
+  # 重试配置
+  default_retries: 3
+  default_timeout: 30
+  
+  # 采集配置
+  concurrent_collectors: 3
+  collection_delay: 5  # 采集间隔（秒）
+  
+  # 通知配置
+  notifications:
+    enabled: true
+    on_failure: true
+    on_success: false
+    channels:
+      - type: "github_issue"
+        enabled: true
+      - type: "email"
+        enabled: false
+        recipients: []

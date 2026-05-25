@@ -1,0 +1,36 @@
+{
+  "title": "附 表",
+  "subtitle": "",
+  "date": "",
+  "regions": [
+    {
+      "name": "省",
+      "gasoline_price": 11090,
+      "diesel_price": null,
+      "section": ""
+    },
+    {
+      "name": "广西 壮族 自 汉 区 |",
+      "gasoline_price": 1040,
+      "diesel_price": null,
+      "section": ""
+    },
+    {
+      "name": "宁夏 回族 自 涌 区 |",
+      "gasoline_price": 1100,
+      "diesel_price": null,
+      "section": ""
+    },
+    {
+      "name": "市 |",
+      "gasoline_price": 10860,
+      "diesel_price": null,
+      "section": ""
+    }
+  ],
+  "notes": [],
+  "success": true,
+  "image_path": "H:\\2026年项目\\2.建立一个api网站\\api\\v1\\oil-price\\images\\oil_price_2026-05-21.png",
+  "ocr_text_length": 880,
+  "ocr_text_preview": "附 表\n各 省 〈 区 、 市 ) 和 中 心 城市 汽 、 柴 油 最 高 零售 价格\n单位 ; 元 / 吨\n| 汽油 (标准 曲 ) | 柴油 (标准 品 )\nH 训 市 | 190 | 9%80\n天 市 18 | 9%5\n河 [ 省 | 1 | 9%5\n省 195 | 9%70\n省 108 5\n表 相 省 | 1 | 9%5\n果 Nil 省 | 18 | 9%5\nLE 市 | 900 | 9%820\n省 11090500 985\n省 190 | 90\n和 省 15 | 9%5\n和 福 炸 | 1l90 | 9%80\nii 省 10 | 9%5\nui 省 | 15 | 9%25\n湖 省 | 10 | 9\n济 才 省 | 10 | 9\n河 省 | 1o95 | 9%35\n海 二 省 | lo | 9%0\n各 上 市 | 1 | 1\nrr 攻 省 | 15 | 9%5\n广西 壮族 自 汉 区 | 1040 | 9%%0\n宁夏 回族 自 涌 区 | 1100 | 9%5\n省 108 | 93\n新 疆 维吾尔 自 汉 区 | 15 | 9\n。 呈 和 消 特 市 | 1l0%0 | 9%8..."
+}

@@ -1,0 +1,171 @@
+# 数据采集定时任务
+# 定时执行数据采集、处理和输出
+
+name: Collect Data
+
+on:
+  # 定时触发：每天UTC时间0点（北京时间8点）
+  schedule:
+    - cron: '0 0 * * *'
+  
+  # 手动触发
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '模拟运行（不实际采集）'
+        required: false
+        default: 'false'
+        type: boolean
+      sources:
+        description: '指定数据源（逗号分隔）'
+        required: false
+        type: string
+
+# 环境变量
+env:
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18'
+
+jobs:
+  collect-data:
+    runs-on: ubuntu-latest
+    
+    # 超时时间
+    timeout-minutes: 30
+    
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史用于回滚
+      
+      # 2. 设置Python环境
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      
+      # 3. 安装Python依赖
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      # 4. 创建必要目录
+      - name: Create directories
+        run: |
+          mkdir -p logs
+          mkdir -p staging
+          mkdir -p api/v1
+          mkdir -p api/metadata
+      
+      # 5. 执行数据采集
+      - name: Run data collection
+        id: collection
+        run: |
+          # 构建命令参数
+          ARGS=""
+          
+          # 检查是否为模拟运行
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          
+          # 检查是否指定了数据源
+          if [ -n "${{ github.event.inputs.sources }}" ]; then
+            ARGS="$ARGS --sources ${{ github.event.inputs.sources }}"
+          fi
+          
+          # 执行采集脚本
+          python scripts/run_collection.py $ARGS
+          
+          # 记录采集结果
+          echo "collection_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_OUTPUT
+        env:
+          PYTHONIOENCODING: utf-8
+      
+      # 6. 检查数据变化
+      - name: Check for changes
+        id: changes
+        run: |
+          # 检查是否有文件变化
+          if git diff --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected"
+            
+            # 显示变化的文件
+            git diff --name-only
+          fi
+      
+      # 7. 提交数据变化
+      - name: Commit changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          # 配置Git
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # 添加变化的文件
+          git add api/
+          git add api/metadata/
+          
+          # 提交变化
+          git commit -m "chore: update data - ${{ steps.collection.outputs.collection_time }}"
+          
+          # 推送变化
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      # 8. 生成采集报告
+      - name: Generate collection report
+        if: always()
+        run: |
+          # 创建报告目录
+          mkdir -p reports
+          
+          # 生成报告文件
+          cat > reports/collection-report.json << EOF
+          {
+            "timestamp": "${{ steps.collection.outputs.collection_time }}",
+            "status": "${{ steps.collection.outcome }}",
+            "has_changes": ${{ steps.changes.outputs.has_changes }},
+            "dry_run": ${{ github.event.inputs.dry_run || 'false' }},
+            "sources": "${{ github.event.inputs.sources || 'all' }}"
+          }
+          EOF
+          
+          echo "Collection report generated"
+      
+      # 9. 上传采集日志
+      - name: Upload collection logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: collection-logs
+          path: |
+            logs/
+            reports/
+          retention-days: 7
+      
+      # 10. 发送失败通知
+      - name: Send failure notification
+        if: failure()
+        run: |
+          echo "::error::Data collection failed"
+          
+          # 可以在这里添加邮件或其他通知方式
+          # 例如：创建GitHub Issue
+          
+      # 11. 发送成功通知
+      - name: Send success notification
+        if: success() && steps.changes.outputs.has_changes == 'true'
+        run: |
+          echo "::notice::Data collection completed successfully"
+          echo "Collection time: ${{ steps.collection.outputs.collection_time }}"
+          echo "Has changes: ${{ steps.changes.outputs.has_changes }}"

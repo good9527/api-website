@@ -1,0 +1,202 @@
+{
+  "date": "2022-03-31",
+  "title": "各省区市和中心城市汽、柴油最高零售价格",
+  "regions": [
+    {
+      "name": "北京市",
+      "gasoline_price": 10880,
+      "diesel_price": 9805,
+      "section": "一省一价"
+    },
+    {
+      "name": "天津市",
+      "gasoline_price": 10845,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "河北省",
+      "gasoline_price": 10845,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "山西省",
+      "gasoline_price": 10915,
+      "diesel_price": 9825,
+      "section": "一省一价"
+    },
+    {
+      "name": "辽宁省",
+      "gasoline_price": 10845,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "吉林省",
+      "gasoline_price": 10845,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "黑龙江省",
+      "gasoline_price": 10845,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "上海市",
+      "gasoline_price": 10860,
+      "diesel_price": 9775,
+      "section": "一省一价"
+    },
+    {
+      "name": "江苏省",
+      "gasoline_price": 10900,
+      "diesel_price": 9810,
+      "section": "一省一价"
+    },
+    {
+      "name": "浙江省",
+      "gasoline_price": 10900,
+      "diesel_price": 9825,
+      "section": "一省一价"
+    },
+    {
+      "name": "安徽省",
+      "gasoline_price": 10895,
+      "diesel_price": 9820,
+      "section": "一省一价"
+    },
+    {
+      "name": "福建省",
+      "gasoline_price": 10920,
+      "diesel_price": 9835,
+      "section": "一省一价"
+    },
+    {
+      "name": "江西省",
+      "gasoline_price": 10900,
+      "diesel_price": 9830,
+      "section": "一省一价"
+    },
+    {
+      "name": "山东省",
+      "gasoline_price": 10855,
+      "diesel_price": 9780,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖北省",
+      "gasoline_price": 10870,
+      "diesel_price": 9795,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖南省",
+      "gasoline_price": 10910,
+      "diesel_price": 9855,
+      "section": "一省一价"
+    },
+    {
+      "name": "河南省",
+      "gasoline_price": 10865,
+      "diesel_price": 9790,
+      "section": "一省一价"
+    },
+    {
+      "name": "海南省",
+      "gasoline_price": 10990,
+      "diesel_price": 9905,
+      "section": "一省一价"
+    },
+    {
+      "name": "重庆市",
+      "gasoline_price": 11060,
+      "diesel_price": 9980,
+      "section": "一省一价"
+    },
+    {
+      "name": "广东省",
+      "gasoline_price": 10925,
+      "diesel_price": 9840,
+      "section": "一省一价"
+    },
+    {
+      "name": "广西壮族自治区",
+      "gasoline_price": 10990,
+      "diesel_price": 9905,
+      "section": "一省一价"
+    },
+    {
+      "name": "宁夏回族自治区",
+      "gasoline_price": 10850,
+      "diesel_price": 9770,
+      "section": "一省一价"
+    },
+    {
+      "name": "甘肃省",
+      "gasoline_price": 10830,
+      "diesel_price": 9790,
+      "section": "一省一价"
+    },
+    {
+      "name": "新疆维吾尔自治区",
+      "gasoline_price": 10625,
+      "diesel_price": 9665,
+      "section": "一省一价"
+    },
+    {
+      "name": "呼和浩特市",
+      "gasoline_price": 10860,
+      "diesel_price": 9785,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "成都市",
+      "gasoline_price": 11065,
+      "diesel_price": 10005,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "贵阳市",
+      "gasoline_price": 11025,
+      "diesel_price": 9930,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "昆明市",
+      "gasoline_price": 11055,
+      "diesel_price": 9960,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "西宁市",
+      "gasoline_price": 10810,
+      "diesel_price": 9815,
+      "section": "暂不实行一省一价"
+    }
+  ],
+  "notes": [
+    "1. 表中价格包含消费税、增值税以及城建税和教育费附加。",
+    "2. 表中汽、柴油价格为符合第六阶段强制性国家标准ⅥA车用汽油和Ⅵ车用柴油价格。",
+    "3. 供林业楷汽、柴油供应价格按供林业生产建设兵团用汽、柴油价格执行；其它相关成品油价格政策按《石油价格管理办法》规定执行。"
+  ],
+  "success": true,
+  "image_path": "H:\\2026年项目\\2.建立一个api网站\\api\\v1\\oil-price\\images\\oil_price_2022-03-31.jpg",
+  "model": "mimo-v2.5",
+  "processed_at": "2026-05-25T15:48:02.803227",
+  "is_stranded": false,
+  "validation": {
+    "is_valid": true,
+    "warnings": [
+      "缺少必要字段: subtitle"
+    ],
+    "errors": [],
+    "statistics": {
+      "total_regions": 29,
+      "complete_regions": 29,
+      "completeness_rate": 1.0
+    }
+  }
+}

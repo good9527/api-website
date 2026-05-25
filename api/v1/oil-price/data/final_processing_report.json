@@ -1,0 +1,13 @@
+{
+  "generated_at": "2026-05-25T03:43:44.640612",
+  "image_files_count": 175,
+  "data_files_count": 38,
+  "processing_rate": 21.714285714285715,
+  "successful_data_count": 38,
+  "failed_data_count": 0,
+  "valid_data_count": 2,
+  "invalid_data_count": 36,
+  "failed_files": [],
+  "total_regions": 886,
+  "average_regions_per_page": 23.31578947368421
+}

@@ -1,0 +1,209 @@
+{
+  "date": "2019-08-20",
+  "title": "各省区市和中心城市汽、柴油最高零售价格",
+  "regions": [
+    {
+      "name": "北京市",
+      "gasoline_price": 8150,
+      "diesel_price": 7175,
+      "section": "一省一价"
+    },
+    {
+      "name": "天津市",
+      "gasoline_price": 8115,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "河北省",
+      "gasoline_price": 8115,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "山西省",
+      "gasoline_price": 8185,
+      "diesel_price": 7195,
+      "section": "一省一价"
+    },
+    {
+      "name": "辽宁省",
+      "gasoline_price": 8115,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "吉林省",
+      "gasoline_price": 8115,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "黑龙江省",
+      "gasoline_price": 8115,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "上海市",
+      "gasoline_price": 8130,
+      "diesel_price": 7145,
+      "section": "一省一价"
+    },
+    {
+      "name": "江苏省",
+      "gasoline_price": 8170,
+      "diesel_price": 7180,
+      "section": "一省一价"
+    },
+    {
+      "name": "浙江省",
+      "gasoline_price": 8170,
+      "diesel_price": 7195,
+      "section": "一省一价"
+    },
+    {
+      "name": "安徽省",
+      "gasoline_price": 8165,
+      "diesel_price": 7190,
+      "section": "一省一价"
+    },
+    {
+      "name": "福建省",
+      "gasoline_price": 8190,
+      "diesel_price": 7205,
+      "section": "一省一价"
+    },
+    {
+      "name": "江西省",
+      "gasoline_price": 8170,
+      "diesel_price": 7200,
+      "section": "一省一价"
+    },
+    {
+      "name": "山东省",
+      "gasoline_price": 8125,
+      "diesel_price": 7150,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖北省",
+      "gasoline_price": 8140,
+      "diesel_price": 7165,
+      "section": "一省一价"
+    },
+    {
+      "name": "湖南省",
+      "gasoline_price": 8180,
+      "diesel_price": 7225,
+      "section": "一省一价"
+    },
+    {
+      "name": "河南省",
+      "gasoline_price": 8135,
+      "diesel_price": 7160,
+      "section": "一省一价"
+    },
+    {
+      "name": "海南省",
+      "gasoline_price": 8260,
+      "diesel_price": 7275,
+      "section": "一省一价"
+    },
+    {
+      "name": "重庆市",
+      "gasoline_price": 8330,
+      "diesel_price": 7350,
+      "section": "一省一价"
+    },
+    {
+      "name": "广东省",
+      "gasoline_price": 8195,
+      "diesel_price": 7210,
+      "section": "一省一价"
+    },
+    {
+      "name": "广西壮族自治区",
+      "gasoline_price": 8260,
+      "diesel_price": 7275,
+      "section": "一省一价"
+    },
+    {
+      "name": "宁夏回族自治区",
+      "gasoline_price": 8120,
+      "diesel_price": 7140,
+      "section": "一省一价"
+    },
+    {
+      "name": "甘肃省",
+      "gasoline_price": 8100,
+      "diesel_price": 7160,
+      "section": "一省一价"
+    },
+    {
+      "name": "新疆维吾尔自治区",
+      "gasoline_price": 7895,
+      "diesel_price": 7035,
+      "section": "一省一价"
+    },
+    {
+      "name": "呼和浩特市",
+      "gasoline_price": 8130,
+      "diesel_price": 7155,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "成都市",
+      "gasoline_price": 8335,
+      "diesel_price": 7375,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "贵阳市",
+      "gasoline_price": 8295,
+      "diesel_price": 7300,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "昆明市",
+      "gasoline_price": 8325,
+      "diesel_price": 7330,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "西安市",
+      "gasoline_price": 8100,
+      "diesel_price": 7150,
+      "section": "暂不实行一省一价"
+    },
+    {
+      "name": "西宁市",
+      "gasoline_price": 8080,
+      "diesel_price": 7185,
+      "section": "暂不实行一省一价"
+    }
+  ],
+  "notes": [
+    "1、表中价格包含消费税、增值税以及城建税和教育费附加。",
+    "2、表中汽油和柴油价格为符合第六阶段强制性国家标准ⅥA车用汽油和Ⅵ车用柴油价格。",
+    "3、汽、柴油第六阶段标准品分别为89号汽油和0号车用柴油。",
+    "4、供国家储备、新疆生产建设兵团用油符合第六阶段质量标准的汽、柴油价格分别为每吨7385元和6410元；供渔业、林业、农垦用汽、柴油供应价格暂按供新疆生产建设兵团用油价格执行；其它相关成品油价格政策按《石油价格管理办法》规定执行。"
+  ],
+  "success": true,
+  "image_path": "H:\\2026年项目\\2.建立一个api网站\\api\\v1\\oil-price\\images\\oil_price_2019-08-20.jpg",
+  "model": "mimo-v2.5",
+  "processed_at": "2026-05-25T15:15:34.613671",
+  "is_stranded": false,
+  "validation": {
+    "is_valid": true,
+    "warnings": [
+      "缺少必要字段: subtitle"
+    ],
+    "errors": [],
+    "statistics": {
+      "total_regions": 30,
+      "complete_regions": 30,
+      "completeness_rate": 1.0
+    }
+  }
+}

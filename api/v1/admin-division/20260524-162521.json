@@ -1,0 +1,57 @@
+{
+  "status": "success",
+  "data": {
+    "update_time": "2026-05-24T16:25:21.160557+00:00",
+    "divisions": [
+      {
+        "code": "110000",
+        "name": "北京市",
+        "level": "province",
+        "parent_code": "000000",
+        "children": [
+          {
+            "code": "110100",
+            "name": "市辖区",
+            "level": "city"
+          },
+          {
+            "code": "110101",
+            "name": "东城区",
+            "level": "district"
+          },
+          {
+            "code": "110102",
+            "name": "西城区",
+            "level": "district"
+          }
+        ]
+      },
+      {
+        "code": "310000",
+        "name": "上海市",
+        "level": "province",
+        "parent_code": "000000",
+        "children": [
+          {
+            "code": "310100",
+            "name": "市辖区",
+            "level": "city"
+          },
+          {
+            "code": "310101",
+            "name": "黄浦区",
+            "level": "district"
+          }
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "source": "admin-division",
+    "collected_at": "2026-05-24T16:25:21.160557+00:00",
+    "version": "20260524-162521",
+    "quality_score": 0.98,
+    "fields_count": 2,
+    "records_count": 2
+  }
+}

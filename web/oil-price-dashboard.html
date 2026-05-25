@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>国内油价数据可视化平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Microsoft YaHei', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .stat-card:hover { transform: translateY(-2px); transition: transform 0.2s; }
+        .table-row:hover { background-color: #f0f9ff; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航 -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold">国内油价数据可视化平台</h1>
+                    <p class="text-blue-200 text-sm mt-1">数据来源：国家发改委</p>
+                </div>
+                <div class="text-right">
+                    <div id="update-time" class="text-sm text-blue-200">加载中...</div>
+                    <button onclick="refreshData()" class="mt-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition">
+                        刷新数据
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- 统计卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="stat-card bg-white rounded-xl p-6 card-shadow animate-fade-in">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500">公告总数</p>
+                        <p id="stat-announcements" class="text-2xl font-bold text-gray-800">--</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card bg-white rounded-xl p-6 card-shadow animate-fade-in" style="animation-delay: 0.1s">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-lg">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500">有效数据</p>
+                        <p id="stat-valid" class="text-2xl font-bold text-gray-800">--</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card bg-white rounded-xl p-6 card-shadow animate-fade-in" style="animation-delay: 0.2s">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-lg">
+                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500">覆盖地区</p>
+                        <p id="stat-regions" class="text-2xl font-bold text-gray-800">--</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card bg-white rounded-xl p-6 card-shadow animate-fade-in" style="animation-delay: 0.3s">
+                <div class="flex items-center">
+                    <div class="p-3 bg-orange-100 rounded-lg">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-500">数据范围</p>
+                        <p id="stat-range" class="text-lg font-bold text-gray-800">--</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <!-- 油价趋势图 -->
+            <div class="bg-white rounded-xl p-6 card-shadow">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">油价趋势</h3>
+                <div class="mb-4">
+                    <select id="region-select" onchange="updateTrendChart()" class="px-4 py-2 border rounded-lg text-sm">
+                        <option value="北京市">北京市</option>
+                        <option value="上海市">上海市</option>
+                        <option value="广东省">广东省</option>
+                        <option value="浙江省">浙江省</option>
+                        <option value="江苏省">江苏省</option>
+                    </select>
+                </div>
+                <canvas id="trendChart" height="300"></canvas>
+            </div>
+            
+            <!-- 最新油价对比 -->
+            <div class="bg-white rounded-xl p-6 card-shadow">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">最新各地区油价对比</h3>
+                <canvas id="comparisonChart" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- 数据表格 -->
+        <div class="bg-white rounded-xl p-6 card-shadow">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 md:mb-0">油价数据列表</h3>
+                <div class="flex gap-4">
+                    <input type="text" id="search-input" placeholder="搜索地区..." 
+                           class="px-4 py-2 border rounded-lg text-sm w-48"
+                           onkeyup="filterTable()">
+                    <select id="date-filter" onchange="filterTable()" class="px-4 py-2 border rounded-lg text-sm">
+                        <option value="">所有日期</option>
+                    </select>
+                    <select id="stranded-filter" onchange="filterTable()" class="px-4 py-2 border rounded-lg text-sm">
+                        <option value="">所有类型</option>
+                        <option value="normal">正常调整</option>
+                        <option value="stranded">搁浅日期</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">日期</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">地区</th>
+                            <th class="px-4 py-3 text-right text-sm font-medium text-gray-600">92号汽油 (元/吨)</th>
+                            <th class="px-4 py-3 text-right text-sm font-medium text-gray-600">0号柴油 (元/吨)</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-600">类型</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table-body">
+                        <tr>
+                            <td colspan="5" class="text-center py-8 text-gray-500">加载中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="flex justify-between items-center mt-6">
+                <div id="pagination-info" class="text-sm text-gray-500">--</div>
+                <div class="flex gap-2">
+                    <button onclick="prevPage()" id="prev-btn" class="px-3 py-1 border rounded text-sm disabled:opacity-50" disabled>上一页</button>
+                    <span id="page-num" class="px-3 py-1 text-sm">1</span>
+                    <button onclick="nextPage()" id="next-btn" class="px-3 py-1 border rounded text-sm disabled:opacity-50" disabled>下一页</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>国内油价数据可视化平台 &copy; 2026</p>
+            <p class="text-sm mt-1">数据来源：国家发展和改革委员会</p>
+        </div>
+    </footer>
+
+    <script>
+        // API基础URL
+        const API_BASE = '';
+        
+        // 全局数据
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const pageSize = 20;
+        let trendChart = null;
+        let comparisonChart = null;
+
+        // 页面加载时获取数据
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStats();
+            loadData();
+        });
+
+        // 加载统计信息
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/oil-price/db/stats`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    const stats = result.data;
+                    document.getElementById('stat-announcements').textContent = stats.announcements_count;
+                    document.getElementById('stat-valid').textContent = stats.valid_data_count;
+                    document.getElementById('stat-regions').textContent = stats.regions_count;
+                    document.getElementById('stat-range').textContent = 
+                        `${stats.oldest_date || '--'} ~ ${stats.latest_date || '--'}`;
+                    document.getElementById('update-time').textContent = 
+                        `最后更新: ${new Date().toLocaleString('zh-CN')}`;
+                }
+            } catch (error) {
+                console.error('加载统计信息失败:', error);
+            }
+        }
+
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/oil-price/db/all?limit=1000`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    allData = result.data;
+                    
+                    // 提取所有地区
+                    const regions = new Set();
+                    allData.forEach(item => {
+                        if (item.regions) {
+                            item.regions.forEach(r => regions.add(r.region_name));
+                        }
+                    });
+                    
+                    // 更新地区选择器
+                    const select = document.getElementById('region-select');
+                    select.innerHTML = '';
+                    [...regions].sort().forEach(region => {
+                        const option = document.createElement('option');
+                        option.value = region;
+                        option.textContent = region;
+                        select.appendChild(option);
+                    });
+                    
+                    // 更新日期过滤器
+                    const dateFilter = document.getElementById('date-filter');
+                    dateFilter.innerHTML = '<option value="">所有日期</option>';
+                    allData.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.date;
+                        option.textContent = item.date;
+                        dateFilter.appendChild(option);
+                    });
+                    
+                    // 初始化图表
+                    filteredData = [...allData];
+                    updateTrendChart();
+                    updateComparisonChart();
+                    renderTable();
+                }
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                document.getElementById('data-table-body').innerHTML = 
+                    '<tr><td colspan="5" class="text-center py-8 text-red-500">加载数据失败，请检查API服务是否运行</td></tr>';
+            }
+        }
+
+        // 更新趋势图
+        function updateTrendChart() {
+            const region = document.getElementById('region-select').value;
+            const ctx = document.getElementById('trendChart').getContext('2d');
+            
+            // 提取该地区的数据
+            const dates = [];
+            const gasolinePrices = [];
+            const dieselPrices = [];
+            
+            allData.forEach(item => {
+                if (item.regions) {
+                    const regionData = item.regions.find(r => r.region_name === region);
+                    if (regionData && regionData.gasoline_price) {
+                        dates.push(item.date);
+                        gasolinePrices.push(regionData.gasoline_price);
+                        dieselPrices.push(regionData.diesel_price);
+                    }
+                }
+            });
+            
+            // 按日期排序
+            const indices = dates.map((_, i) => i);
+            indices.sort((a, b) => dates[a].localeCompare(dates[b]));
+            
+            const sortedDates = indices.map(i => dates[i]);
+            const sortedGasoline = indices.map(i => gasolinePrices[i]);
+            const sortedDiesel = indices.map(i => dieselPrices[i]);
+            
+            if (trendChart) {
+                trendChart.destroy();
+            }
+            
+            trendChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: sortedDates,
+                    datasets: [
+                        {
+                            label: '92号汽油',
+                            data: sortedGasoline,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: '0号柴油',
+                            data: sortedDiesel,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y} 元/吨`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' 元';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 更新对比图
+        function updateComparisonChart() {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            
+            // 获取最新一条有效数据
+            const latestData = allData.find(d => d.regions && d.regions.length > 0);
+            if (!latestData) return;
+            
+            const regions = latestData.regions
+                .filter(r => r.gasoline_price)
+                .sort((a, b) => b.gasoline_price - a.gasoline_price)
+                .slice(0, 15);
+            
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+            
+            comparisonChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: regions.map(r => r.region_name),
+                    datasets: [
+                        {
+                            label: '92号汽油',
+                            data: regions.map(r => r.gasoline_price),
+                            backgroundColor: 'rgba(59, 130, 246, 0.8)',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '0号柴油',
+                            data: regions.map(r => r.diesel_price),
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                            borderColor: '#10b981',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.x} 元/吨`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' 元';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 渲染表格
+        function renderTable() {
+            const tbody = document.getElementById('data-table-body');
+            const start = (currentPage - 1) * pageSize;
+            const end = start + pageSize;
+            const pageData = [];
+            
+            // 展开数据为行
+            filteredData.forEach(item => {
+                const isStranded = item.is_stranded || false;
+                
+                if (isStranded) {
+                    // 搁浅日期特殊处理
+                    pageData.push({
+                        date: item.date,
+                        region: '搁浅日期',
+                        gasoline: null,
+                        diesel: null,
+                        section: item.stranded_reason || '按机制不作调整',
+                        isStranded: true,
+                        title: item.title
+                    });
+                } else if (item.regions && item.regions.length > 0) {
+                    // 正常日期处理
+                    item.regions.forEach(region => {
+                        pageData.push({
+                            date: item.date,
+                            region: region.region_name,
+                            gasoline: region.gasoline_price,
+                            diesel: region.diesel_price,
+                            section: region.section,
+                            isStranded: false
+                        });
+                    });
+                }
+            });
+            
+            const pageItems = pageData.slice(start, end);
+            
+            if (pageItems.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-gray-500">暂无数据</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = pageItems.map(item => {
+                if (item.isStranded) {
+                    // 搁浅日期行
+                    return `
+                        <tr class="table-row border-b bg-yellow-50">
+                            <td class="px-4 py-3 text-sm font-medium">${item.date}</td>
+                            <td class="px-4 py-3 text-sm font-medium text-yellow-700">${item.region}</td>
+                            <td class="px-4 py-3 text-sm text-right text-gray-400">--</td>
+                            <td class="px-4 py-3 text-sm text-right text-gray-400">--</td>
+                            <td class="px-4 py-3 text-sm text-yellow-600">${item.section}</td>
+                        </tr>
+                    `;
+                } else {
+                    // 正常日期行
+                    return `
+                        <tr class="table-row border-b">
+                            <td class="px-4 py-3 text-sm">${item.date}</td>
+                            <td class="px-4 py-3 text-sm font-medium">${item.region}</td>
+                            <td class="px-4 py-3 text-sm text-right">${item.gasoline || '--'}</td>
+                            <td class="px-4 py-3 text-sm text-right">${item.diesel || '--'}</td>
+                            <td class="px-4 py-3 text-sm text-gray-500">${item.section}</td>
+                        </tr>
+                    `;
+                }
+            }).join('');
+            
+            // 更新分页信息
+            const totalPages = Math.ceil(pageData.length / pageSize);
+            document.getElementById('pagination-info').textContent = 
+                `显示 ${start + 1}-${Math.min(end, pageData.length)} 条，共 ${pageData.length} 条`;
+            document.getElementById('page-num').textContent = `${currentPage} / ${totalPages}`;
+            document.getElementById('prev-btn').disabled = currentPage <= 1;
+            document.getElementById('next-btn').disabled = currentPage >= totalPages;
+        }
+
+        // 过滤表格
+        function filterTable() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const dateFilter = document.getElementById('date-filter').value;
+            const strandedFilter = document.getElementById('stranded-filter').value;
+            
+            filteredData = allData.filter(item => {
+                // 日期过滤
+                if (dateFilter && item.date !== dateFilter) return false;
+                
+                // 搁浅过滤
+                if (strandedFilter === 'stranded' && !item.is_stranded) return false;
+                if (strandedFilter === 'normal' && item.is_stranded) return false;
+                
+                // 搜索过滤
+                if (searchTerm) {
+                    // 对于搁浅日期，搜索标题
+                    if (item.is_stranded) {
+                        return item.title && item.title.toLowerCase().includes(searchTerm);
+                    }
+                    // 对于正常日期，搜索地区
+                    if (item.regions) {
+                        return item.regions.some(r => 
+                            r.region_name.toLowerCase().includes(searchTerm)
+                        );
+                    }
+                }
+                
+                return true;
+            });
+            
+            currentPage = 1;
+            renderTable();
+        }
+
+        // 分页控制
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredData.length / pageSize);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        // 刷新数据
+        function refreshData() {
+            loadStats();
+            loadData();
+        }
+    </script>
+</body>
+</html>

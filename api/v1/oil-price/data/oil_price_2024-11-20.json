@@ -1,0 +1,28 @@
+{
+  "date": "2024-11-20",
+  "title": "2024年11月20日国内成品油价格不作调整",
+  "regions": [],
+  "notes": [
+    "该日期油价调整搁浅，未进行调整。",
+    "公告标题：2024年11月20日国内成品油价格不作调整",
+    "公告链接：https://www.ndrc.gov.cn/xwdt/xwfb/202411/t20241120_1394603.html"
+  ],
+  "success": true,
+  "model": "stranded",
+  "is_stranded": true,
+  "stranded_reason": "按机制不作调整",
+  "processed_at": "2026-05-25T18:19:33.238082",
+  "validation": {
+    "is_valid": false,
+    "warnings": [
+      "缺少必要字段: subtitle",
+      "缺少必要字段: regions"
+    ],
+    "errors": [
+      "未找到地区数据"
+    ],
+    "statistics": {
+      "total_regions": 0
+    }
+  }
+}

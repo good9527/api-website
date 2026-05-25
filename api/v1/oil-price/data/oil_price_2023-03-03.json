@@ -1,0 +1,28 @@
+{
+  "date": "2023-03-03",
+  "title": "2023年3月3日国内成品油价格不作调整",
+  "regions": [],
+  "notes": [
+    "该日期油价调整搁浅，未进行调整。",
+    "公告标题：2023年3月3日国内成品油价格不作调整",
+    "公告链接：https://www.ndrc.gov.cn/xwdt/xwfb/202303/t20230303_1350622.html"
+  ],
+  "success": true,
+  "model": "stranded",
+  "is_stranded": true,
+  "stranded_reason": "按机制不作调整",
+  "processed_at": "2026-05-25T18:19:33.247238",
+  "validation": {
+    "is_valid": false,
+    "warnings": [
+      "缺少必要字段: subtitle",
+      "缺少必要字段: regions"
+    ],
+    "errors": [
+      "未找到地区数据"
+    ],
+    "statistics": {
+      "total_regions": 0
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "status": "success",
+  "timestamp": "2026-05-24T16:25:21.171977+00:00",
+  "sources": {
+    "oil-price": {
+      "status": "success",
+      "last_updated": "2026-05-24T16:25:21.171977+00:00"
+    },
+    "traffic-restrict": {
+      "status": "success",
+      "last_updated": "2026-05-24T16:25:21.171977+00:00"
+    },
+    "policy": {
+      "status": "success",
+      "last_updated": "2026-05-24T16:25:21.171977+00:00"
+    },
+    "admin-division": {
+      "status": "success",
+      "last_updated": "2026-05-24T16:25:21.171977+00:00"
+    },
+    "price-table": {
+      "status": "success",
+      "last_updated": "2026-05-24T16:25:21.171977+00:00"
+    }
+  }
+}

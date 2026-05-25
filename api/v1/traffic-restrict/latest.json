@@ -1,0 +1,65 @@
+{
+  "status": "success",
+  "data": {
+    "update_time": "2026-05-24T16:25:21.152376+00:00",
+    "restrictions": [
+      {
+        "city": "北京",
+        "rule": "工作日早晚高峰时段限行，按车牌尾号轮换",
+        "time_range": "工作日7:00-9:00，17:00-20:00",
+        "area": "五环路以内（不含五环）",
+        "exceptions": [
+          "新能源汽车",
+          "出租车",
+          "公交车"
+        ],
+        "effective_date": "2026-01-01",
+        "end_date": "2026-12-31"
+      },
+      {
+        "city": "上海",
+        "rule": "外牌高架限行，内环地面限行",
+        "time_range": "工作日7:00-20:00",
+        "area": "高架道路、内环地面道路",
+        "exceptions": [
+          "新能源汽车",
+          "沪牌车辆"
+        ],
+        "effective_date": "2026-01-01",
+        "end_date": "2026-12-31"
+      },
+      {
+        "city": "广州",
+        "rule": "开四停四政策",
+        "time_range": "全天",
+        "area": "管控区域内",
+        "exceptions": [
+          "广州牌照车辆",
+          "新能源汽车"
+        ],
+        "effective_date": "2026-01-01",
+        "end_date": "2026-12-31"
+      },
+      {
+        "city": "深圳",
+        "rule": "外地车限行",
+        "time_range": "工作日7:00-9:00，17:30-19:30",
+        "area": "全市范围",
+        "exceptions": [
+          "深圳牌照车辆",
+          "新能源汽车"
+        ],
+        "effective_date": "2026-01-01",
+        "end_date": "2026-12-31"
+      }
+    ]
+  },
+  "metadata": {
+    "source": "traffic-restrict",
+    "collected_at": "2026-05-24T16:25:21.152376+00:00",
+    "version": "20260524-162521",
+    "quality_score": 0.95,
+    "fields_count": 2,
+    "records_count": 4
+  }
+}

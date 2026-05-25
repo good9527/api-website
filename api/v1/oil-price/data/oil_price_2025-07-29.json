@@ -1,0 +1,28 @@
+{
+  "date": "2025-07-29",
+  "title": "2025年7月29日国内成品油价格按机制不作调整",
+  "regions": [],
+  "notes": [
+    "该日期油价调整搁浅，未进行调整。",
+    "公告标题：2025年7月29日国内成品油价格按机制不作调整",
+    "公告链接：https://www.ndrc.gov.cn/xwdt/xwfb/202507/t20250729_1399467.html"
+  ],
+  "success": true,
+  "model": "stranded",
+  "is_stranded": true,
+  "stranded_reason": "按机制不作调整",
+  "processed_at": "2026-05-25T18:19:33.228969",
+  "validation": {
+    "is_valid": false,
+    "warnings": [
+      "缺少必要字段: subtitle",
+      "缺少必要字段: regions"
+    ],
+    "errors": [
+      "未找到地区数据"
+    ],
+    "statistics": {
+      "total_regions": 0
+    }
+  }
+}

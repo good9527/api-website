@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "限行信息数据",
+  "description": "各城市机动车限行规定数据",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "error"],
+      "description": "数据状态"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "update_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "数据更新时间"
+        },
+        "restrictions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "城市名称"
+              },
+              "rule": {
+                "type": "string",
+                "description": "限行规则描述"
+              },
+              "time_range": {
+                "type": "string",
+                "description": "限行时间范围"
+              },
+              "area": {
+                "type": "string",
+                "description": "限行区域"
+              },
+              "exceptions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "例外情况"
+              },
+              "effective_date": {
+                "type": "string",
+                "format": "date",
+                "description": "生效日期"
+              },
+              "end_date": {
+                "type": "string",
+                "format": "date",
+                "description": "结束日期"
+              }
+            },
+            "required": ["city", "rule", "time_range"]
+          },
+          "description": "限行规定列表"
+        }
+      },
+      "required": ["update_time", "restrictions"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "description": "数据来源"
+        },
+        "collected_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "采集时间"
+        },
+        "version": {
+          "type": "string",
+          "description": "数据版本"
+        },
+        "quality_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "数据质量评分"
+        },
+        "fields_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "字段数量"
+        },
+        "records_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "记录数量"
+        }
+      },
+      "required": ["source", "collected_at", "version", "quality_score"]
+    }
+  },
+  "required": ["status", "data", "metadata"]
+}
