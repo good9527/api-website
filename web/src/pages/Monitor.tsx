@@ -39,6 +39,7 @@ export default function Monitor() {
   const [healthData, setHealthData] = useState<HealthCheckResponse | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -58,8 +59,10 @@ export default function Monitor() {
     fetchData()
   }, [])
 
-  const handleRefresh = () => {
-    fetchData()
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    await fetchData()
+    setIsRefreshing(false)
   }
 
   // 转换数据源状态
